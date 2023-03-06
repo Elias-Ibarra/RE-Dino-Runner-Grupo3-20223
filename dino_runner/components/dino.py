@@ -59,7 +59,7 @@ class Dino(Sprite):
    
         
         
-##
+    #
     #correr
     def run(self):
         
