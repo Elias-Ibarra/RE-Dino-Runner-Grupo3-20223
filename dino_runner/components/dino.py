@@ -57,9 +57,6 @@ class Dino(Sprite):
         screen.blit(self.image, self.dino_rect)
 
    
-        
-        
-    #
     #correr
     def run(self):
         
@@ -75,7 +72,7 @@ class Dino(Sprite):
         
        
 
-    # hacer que el dino se agache
+    # agacharse
     def duck(self):
         if self.step_index < 5:
         
