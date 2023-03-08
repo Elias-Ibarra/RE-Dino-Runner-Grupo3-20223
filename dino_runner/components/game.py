@@ -1,9 +1,10 @@
+import random
 import pygame
+from dino_runner.components.cloud import Cloud
 from dino_runner.components.dino import Dino
 from dino_runner.components.obstacles.obstaclemanager import ObstacleManager
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
-
-
+from dino_runner.components import text_utils
+from dino_runner.utils.constants import BG, CLOUD, ICON, RUNNING, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
 
 class Game:
     def __init__(self):
@@ -18,42 +19,55 @@ class Game:
         self.y_pos_bg = 380
         self.player = Dino()
         self.obstacles_manager = ObstacleManager()
+        self.points = 0
+        self.clouds = Cloud(CLOUD)
+        self.running = True
+        self.death_count = 0
+        self.high_score = 0
+
+        
 
     def run(self):
         # Game loop: events - update - draw
         self.playing = True
+        self.obstacles_manager.reset_obstacles()
+        self.reset_points_and_speed()
+        self.death_count += 1
         while self.playing:
             self.events()
             self.update()
             self.draw()
-        pygame.quit()
+
 
     def events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.playing = False
             
-
     def update(self):
         user_input = pygame.key.get_pressed()
         self.player.update(user_input)
+        
         self.obstacles_manager.update(self)
         
         
-
+        
     def draw(self):
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
+        self.score()
         self.draw_background()
         self.player.draw(self.screen)
         self.obstacles_manager.draw(self.screen)
+        self.clouds.draw(self.screen, self.game_speed)
         pygame.display.update()
         pygame.display.flip()
-    
+        
+
 
     def draw_background(self):
         image_width = BG.get_width()
-    
+        
         self.screen.blit(BG, (self.x_pos_bg, self.y_pos_bg))
         self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
     
@@ -62,3 +76,64 @@ class Game:
             self.x_pos_bg = 0
         
         self.x_pos_bg -= self.game_speed
+
+
+    
+    def execute(self):
+        while self.running:
+            if not self.playing: 
+                self.show_menu()
+    
+
+            
+    def show_menu(self):
+        self.running = True
+        white_color = (255, 255, 255)
+        self.screen.fill(white_color)
+        self.print_menu_elements()
+        pygame.display.update()
+        self.handle_key_events_on_menu()
+    
+    def print_menu_elements(self):
+        if self.death_count == 0:
+            text, text_rect = text_utils.get_centered_message("Press any key to start")
+            self.screen.blit(text, text_rect)
+        else:
+            #Contador de muertes
+            # mostrar las muertes en pantalla
+            text, text_rect = text_utils.get_centered_message("Press any key to start Death : " + str(self.death_count))
+            self.screen.blit(text, text_rect)
+            
+        
+        self.screen.blit(RUNNING[0],(50,50))
+    
+    def handle_key_events_on_menu(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.running = False
+                self.playing = False
+                pygame.display.quit()
+                pygame.quit()
+                exit()
+            if event.type == pygame.KEYDOWN:
+                self.playing = True
+                self.run()
+                
+    def score(self):
+        self.points += 1
+        if self.points % 100 == 0:
+            self.game_speed += 1
+        text, text_rect = text_utils.get_score_element(("Point Score : " + str(self.points)),(10))
+        self.screen.blit(text, text_rect)
+        if self.death_count > 1:
+            text2, text_rect2 = text_utils.get_score_element(("High Score : " + str(self.high_score)),(35))
+            self.screen.blit(text2, text_rect2)
+
+    #Resetear el puntaje y la velocidad
+    #mostrar las muertes en pantalla
+    def reset_points_and_speed(self):
+        self.high_score = max(self.points, self.high_score)
+        self.points = 0
+        self.game_speed = 20
+        
+        

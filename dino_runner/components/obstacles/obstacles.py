@@ -1,6 +1,6 @@
 from pygame.sprite import Sprite
 
-from dino_runner.utils.constants import BIRD, SCREEN_WIDTH
+from dino_runner.utils.constants import  SCREEN_WIDTH
 class Obstacle(Sprite):
     def __init__(self, image, type):
         self.image = image
@@ -16,6 +16,9 @@ class Obstacle(Sprite):
     
     def draw(self, screen):
         screen.blit(self.image[self.type], self.rect)
+    
+
+        
     
 
  

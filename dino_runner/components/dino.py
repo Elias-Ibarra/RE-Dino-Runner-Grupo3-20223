@@ -20,7 +20,8 @@ class Dino(Sprite):
         self.dino_duck = False
         self.dino_jump = False
         self.jump_vel = self.JUMP_VEL
-    
+
+        self.dead = pygame.image.load('dino_runner/assets/Dino/DinoDead.png')
         
         
     def update(self,user_input):
@@ -103,3 +104,8 @@ class Dino(Sprite):
             self.jump_vel = self.JUMP_VEL
             
             
+    #def dino_dead(self):
+    #    self.image = self.dead
+    #    self.dino_rect.x = self.X_POS
+    #    self.dino_rect.y = self.Y_POS + 30
+    #    self.step_index += 1
