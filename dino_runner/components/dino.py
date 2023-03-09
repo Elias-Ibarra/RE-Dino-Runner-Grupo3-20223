@@ -106,7 +106,6 @@ class Dino(Sprite):
                 self.shield = False
                 self.update_to_default(SHIELD_TYPE)
         elif self.hammer:
-
             time_to_show = round ((self.hammer_time_up - pygame.time.get_ticks())/ 1000 , 2)
             if time_to_show >=0:
                 if self.hammer_show_text:
@@ -115,7 +114,7 @@ class Dino(Sprite):
                     screen.blit(text, textRect)
             else:
                 self.hammer = False
-                self
+                self.update_to_default(HUAMMER_TYPE)
                 
     def update_to_default (self, current_type):
         if self.type == current_type:

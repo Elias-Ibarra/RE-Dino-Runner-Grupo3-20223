@@ -32,7 +32,8 @@ class Game:
         self.life = 3
         self.dino_dead = pygame.image.load('dino_runner/assets/DinoWallpaper.png')
         self.btn_restart = pygame.image.load('dino_runner/assets/Other/Reset.png')
-        
+        self.bg_over = pygame.image.load('dino_runner/assets/bg_game_over.jpeg')
+        self.dead = False
     def run(self):
         self.create_components()
         self.playing = True
@@ -56,6 +57,7 @@ class Game:
 
 
     def draw(self):
+        self.number_bg = 0
         self.score()
         self.clock.tick(FPS)
         self.screen.fill((255, 255, 255))
@@ -80,6 +82,7 @@ class Game:
     def execute (self):
         while self.running:
             if not self.playing:
+                    
                 self.show_menu()
     
     def show_menu(self):
@@ -88,39 +91,58 @@ class Game:
         self.screen.fill((255, 255, 255))
         self.screen.blit(fondo,(0,0))
         self.print_menu_elements()
-        pygame.display.update()
         self.handle_key_events_on_menu()
+        pygame.display.update()
+    
+        
+        
+        
+        
 
     def print_menu_elements(self):
         if self.death_count == 0:
-            text, text_rect = text_utils.get_centered_message('Press any Key to start',550, 50,'Comic Sans MS', 50)
-            bienvenido, bienvenido_rect = text_utils.get_centered_message('Welcome to Dino Runner',550, 300,'Comic Sans MS', 40)
+            text, text_rect = text_utils.get_centered_message('Press any Key to start',550, 300,'Comic Sans MS', 38)
+            bienvenido, bienvenido_rect = text_utils.get_centered_message('Dino Runner',550, 50,'Comic Sans MS', 50)
             self.screen.blit(text, text_rect)
             self.screen.blit(bienvenido, bienvenido_rect)
             self.blit_corazon('menu')
+            self.screen.blit(RUNNING[0], (SCREEN_WIDTH // 2 - 40, 150))
             
         elif self.life <= 0 or self.life == self.death_count:
-            self.screen.blit(self.ing_game_over, (400, 250))
+            text_game_over, text_game_over_rect = text_utils.get_centered_message('internet connection restored',500, 300,'Comic Sans MS', 38)
+            self.screen.blit(self.bg_over, (0, 0))
+            self.screen.blit(self.ing_game_over, (300, 250))
             self.screen.blit(self.dino_dead, (500, 350))
+            self.screen.blit(text_game_over, text_game_over_rect)
             pygame.display.update()
-            pygame.time.wait(8000)
-            self.life = 3
-            self.death_count = 0
-            self.points = 0
+            pygame.time.wait(5000)
+            pygame.display.flip()
+            self.reset()
+            
             
         else:
             text, text_rect = text_utils.get_centered_message('Press any Key to Restart',500, 50,'Comic Sans MS', 50)
             score, score_rect = text_utils.get_centered_message(('Your Score: ' + str(self.points)),200, 250,'Comic Sans MS', 25)
                                                             
             death, death_rect = text_utils.get_centered_message('Death count: ' + str(self.death_count),900, 250,'Comic Sans MS', 25)
+            
             self.screen.blit(self.btn_restart, (850, 20))
             self.screen.blit(score, score_rect)
             self.screen.blit(text, text_rect)
             self.screen.blit(death, death_rect)
             self.blit_corazon('menu')
+            self.screen.blit(RUNNING[0], (SCREEN_WIDTH // 2 - 40, 150))
             
-
-        self.screen.blit(RUNNING[0], (SCREEN_WIDTH // 2 - 40, 150))
+    # usar el reset en la linea
+    def reset(self):
+        #self.player.reset()
+        #self.obstacle_manager.reset()
+        #self.power_up_manager.reset()
+        #self.clouds.reset()
+        self.life = 3
+        self.death_count = 0
+        #self.game_speed = 20
+        self.points = 0
         
     def blit_corazon(self,posicion):
         if posicion == 'menu':

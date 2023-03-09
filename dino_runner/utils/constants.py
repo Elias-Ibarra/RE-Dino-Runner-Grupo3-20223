@@ -2,7 +2,7 @@ import pygame
 import os
 
 # Global Constants
-TITLE = "Dino"
+TITLE = "Dino - Elias Ibarra"
 SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 1100
 FPS = 30
