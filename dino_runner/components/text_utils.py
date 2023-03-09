@@ -1,24 +1,24 @@
 import pygame
-from dino_runner.utils.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 
-FONT_STYLE = 'freesansbold.ttf'
+from dino_runner.utils.constants import SCREEN_HEIGHT, SCREEN_WIDTH
+# importar un font style
+# SysFont
+#fuente= pygame.font.SysFont("Arial", 20)
+#FONT_STYLE= 
 black_color = (0, 0, 0)
 
-def get_score_element(points,pos_y = 50):
-    font = pygame.font.Font(FONT_STYLE, 16)
-    text = font.render( str(points), True, black_color)
+def get_score_element(points,pos_x,pos_y,font_style,font_size):
+    font = pygame.font.SysFont(font_style, font_size)
+    text = font.render( str(points), True, black_color )
     text_rect = text.get_rect()
-    text_rect.center = (900, pos_y)
+    text_rect.center = (pos_x, pos_y)
     
     return text, text_rect
-def get_centered_message(message,width = SCREEN_WIDTH/2, height = SCREEN_HEIGHT/2):
-    font = pygame.font.Font(FONT_STYLE, 32)
+
+def get_centered_message (message, width = SCREEN_WIDTH // 2, height = SCREEN_HEIGHT // 2, font_style = "arial", font_size = 30): 
+    font = pygame.font.SysFont(font_style, font_size)
     text = font.render(message, True, black_color)
     text_rect = text.get_rect()
-    text_rect.center = (width , height)
-    return text, text_rect  
+    text_rect.center = (width, height)
     
-
-    
-    
-    
+    return text, text_rect

@@ -2,7 +2,7 @@ import pygame
 import os
 
 # Global Constants
-TITLE = "Dino Runner"
+TITLE = "Dino"
 SCREEN_HEIGHT = 600
 SCREEN_WIDTH = 1100
 FPS = 30
@@ -68,5 +68,9 @@ HAMMER = pygame.image.load(os.path.join(IMG_DIR, 'Other/hammer.png'))
 BG = pygame.image.load(os.path.join(IMG_DIR, 'Other/Track.png'))
 
 HEART = pygame.image.load(os.path.join(IMG_DIR, 'Other/SmallHeart.png'))
+DINO_DEAD = pygame.image.load(os.path.join(IMG_DIR, 'Dino/DinoDead.png'))
 
 DEFAULT_TYPE = "default"
+SHIELD_TYPE = "shield"
+HUAMMER_TYPE = "hammer"
+
